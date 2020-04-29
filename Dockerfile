@@ -1,12 +1,13 @@
 # 基础镜像
-FROM centos7
+FROM centos:centos8
 
 # 参数
 ARG JDK_PKG
 ARG WEBLOGIC_JAR
 
 # 基础环境设置
-RUN sed -i -e '/mirrors.cloud.aliyuncs.com/d' -e '/mirrors.aliyuncs.com/d' /etc/yum.repos.d/CentOS-Base.repo \
+RUN curl -o /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Centos-8.repo \
+    && sed -i -e '/mirrors.cloud.aliyuncs.com/d' -e '/mirrors.aliyuncs.com/d' /etc/yum.repos.d/CentOS-Base.repo \
     && yum makecache \
     && yum -y install libnsl \
     && groupadd -g 1000 oinstall && useradd -u 1100 -g oinstall oracle \
